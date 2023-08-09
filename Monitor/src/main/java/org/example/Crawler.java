@@ -38,7 +38,6 @@ public class Crawler {
             int responseCode = connection.getResponseCode();
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("success");
                 // Read the content of the page
                 Scanner scanner = new Scanner(connection.getInputStream());
                 StringBuilder content = new StringBuilder();
@@ -51,9 +50,17 @@ public class Crawler {
                 Document document = Jsoup.parse(content.toString());
 
                 // Extract and process the content using jsoup selectors
-                Elements paragraphs = document.select("p"); // Example: Extract all paragraphs
-                for (Element paragraph : paragraphs) {
-                    System.out.println(paragraph.text());
+                Element subwayElement = document.getElementById("tab-subway");
+
+                if (subwayElement != null) {
+                    Elements innerElements = subwayElement.getAllElements();
+                    for (Element innerElement : innerElements) {
+                        allLines.add( innerElement.text() );
+
+                        if (innerElement.text().equals( "Delays" )) {
+                            delayedLines.add( innerElement.text() );
+                        }
+                    }
                 }
             } else {
                 System.out.println("Failed to retrieve content. Response code: " + responseCode);

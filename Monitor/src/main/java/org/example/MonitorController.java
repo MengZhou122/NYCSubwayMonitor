@@ -40,7 +40,7 @@ public class MonitorController {
         //log recovered lines
         for (String delayedLine: delayedLineList) {
             if (!updatedDelayedLineList.contains(delayedLine)) {
-                context.append("Line").append(delayedLine).append("is now recovered.");
+                context.append("<br>Line").append(delayedLine).append("is now recovered.");
             }
         }
 
@@ -58,7 +58,7 @@ public class MonitorController {
     }
 
     // Scheduled to refresh every 10 seconds
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 10000)
     public void refresh() {
         System.out.println("Delay information Updates:");
         updateContext();
